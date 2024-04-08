@@ -1,0 +1,46 @@
+<html lang="us">
+<head>
+    <meta charset="utf-8">
+    <title>Form Block Preview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/blocks/form/form.css">
+    <script type="text/javascript" type="module" src="/js/script.js"></script>
+    <style>
+        /* make the status div to be gray in backgroun with padding and big font size and sentence case*/
+        #status {
+            background-color: #f4f4f4;
+            padding: 10px;
+            font-size: 20px;
+            text-transform: capitalize;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Form Block</h1>
+        <div id="instructions">
+            <h2>Environment Variables</h2>
+            <div>Ensure you have the following environment variables set in .env file
+                <pre>
+                    <code>
+                        AEM_URL='' #AEM Instance
+                        AEM_USER_NAME='' # AEM Username
+                        AEM_PASSWORD='' # AEM Password
+                        AEM_TOKEN='' #Either AEM_TOKEN or AEM_USER_NAME and AEM_PASSWORD is mandatory for fetching content from AEM
+                        EDS_URL='' #EDS Endpoint
+                    </code>
+                </pre>
+            </div>
+            <h2>Render Form present in EDS</h2>
+            <div>Prefix the EDS URL with <b>/doc</b> i.e. <code>/doc/path/to/hlx/page</code></div>
+            <h2>Render AEM Form</h2>
+            <div>Prefix <b>/aem</b> followed by Adaptive form path without <code>/content/forms/af</code></div>
+        </div>
+        <div id="status">
+        </div>
+        <div id="form-block" class="form block"></div>
+    </main>
+</body>
+</html>
