@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import { createProxyMiddleware, } from 'http-proxy-middleware';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import open from 'open';
@@ -28,23 +28,24 @@ const authorization = AEM_TOKEN ? `Bearer ${AEM_TOKEN}` : `Basic ${Buffer.from(`
 const defaultOpts = {
   changeOrigin: true,
   logLevel: 'debug',
-}
+};
 const options = {
   ...defaultOpts,
   target: AEM_URL,
   headers: {
     Authorization: authorization,
-  }
+  },
 };
 
 const eds_options = {
   ...defaultOpts,
   target: EDS_URL,
   pathRewrite: {
-    [`^/eds`]: '',
+    '^/eds': '',
   },
 };
-let proxyMiddleware, p1, p2, edsContent
+let proxyMiddleware; let p1; let p2; let
+  edsContent;
 if (AEM_URL) {
   proxyMiddleware = createProxyMiddleware(AEM_FORM_BASE_PATH, options);
   p1 = createProxyMiddleware('/adobe', options);
@@ -64,7 +65,7 @@ if (EDS_URL) {
 // });
 
 app.get('/blocks/form/*', (req, res) => {
-  const newpath = path.join(__dirname, '../' ,req.path);
+  const newpath = path.join(__dirname, '../', req.path);
   res.sendFile(newpath);
 });
 
