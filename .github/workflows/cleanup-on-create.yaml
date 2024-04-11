@@ -29,10 +29,9 @@ jobs:
             CHANGELOG.md
 
       - name: Remove Form Developement Files
-        run: | 
+        run: |
           rm -rf \
-            .circleci .npmrc scripts/postinstall.js scripts/server.js\
-            test  
+            .circleci .npmrc test
 
       - name: Initialize README
         # replace {repo} and {owner} with the actual values

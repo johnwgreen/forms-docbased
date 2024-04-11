@@ -9,8 +9,12 @@ global.fetch = (url, opts) => {
   if (!(url.startsWith('https') || url.startsWith('http'))) {
     finalUrl = `http://localhost:3000${url}`;
   }
+
+  const headers = new Headers();
+  headers.set('Content-Type', 'application/json');
   if (global.fetch?.mockData?.[finalUrl]) {
     return {
+      headers,
       json: () => (global.fetch?.mockData?.[finalUrl] || {}),
     };
   } return fetch(finalUrl, opts);

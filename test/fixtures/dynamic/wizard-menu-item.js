@@ -323,6 +323,10 @@ export function op(block) {
   assert.equal(hideItems.length, 1);
   const showPanelButton = block.querySelector('#showPanelButtonId');
   showPanelButton.click();
+
+  // const backButton = block.querySelector('.wizard-button-prev');
+  // const displayValue = document.defaultView.getComputedStyle(backButton).display;
+  // assert.equal(displayValue, 'none');
 }
 
 export function expect(block) {

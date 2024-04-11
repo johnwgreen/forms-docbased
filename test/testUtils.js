@@ -185,3 +185,17 @@ export function setValue(block, id, value) {
   input.value = value;
   input.dispatchEvent(new Event('change', { bubbles: true }));
 }
+
+export function testFormFetch(filePath) {
+  it(`Fetching of ${filePath?.substr(filePath.lastIndexOf('/') + 1)}`, async () => {
+    resetIds();
+    const module = await import(filePath);
+    const {
+      before, op, expect, ignore = false, opDelay, after,
+    } = module;
+    if (ignore) {
+      return;
+    }
+    await test(null, before, op, expect, opDelay, after);
+  });
+}
