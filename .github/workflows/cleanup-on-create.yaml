@@ -40,7 +40,7 @@ jobs:
 
       - name: Update Package.json
         run: |
-          rm -rf package.json
+          rm -rf package.json package-lock.json
           mv package-prod.json package.json
 
       - name: Initialize README

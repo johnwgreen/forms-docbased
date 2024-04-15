@@ -10,5 +10,3 @@ helix-importer-ui
 
 .env*
 .vscode
-
-package-lock.json
