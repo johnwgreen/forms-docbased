@@ -32,10 +32,11 @@ jobs:
         run: |
           rm -rf \
             .circleci .npmrc test rollup
+
       - name: Update .eslintignore
-          run: |
-            sed -i '/^rollup/d' .eslintignore
-            sed -i '/^helix-importer-ui/d' .eslintignore 
+        run: |
+          sed -i '/^rollup/d' .eslintignore
+          sed -i '/^helix-importer-ui/d' .eslintignore 
 
       - name: Update Package.json
         run: |
