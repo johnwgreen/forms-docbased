@@ -31,7 +31,16 @@ jobs:
       - name: Remove Form Developement Files
         run: |
           rm -rf \
-            .circleci .npmrc test
+            .circleci .npmrc test rollup
+      - name: Update .eslintignore
+          run: |
+            sed -i '/^rollup/d' .eslintignore
+            sed -i '/^helix-importer-ui/d' .eslintignore 
+
+      - name: Update Package.json
+        run: |
+          rm -rf package.json
+          mv package-prod.json package.json
 
       - name: Initialize README
         # replace {repo} and {owner} with the actual values
