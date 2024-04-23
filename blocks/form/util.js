@@ -105,11 +105,11 @@ export function createButton(fd) {
   button.textContent = fd?.label?.visible === false ? '' : fd?.label?.value;
   button.type = fd.buttonType || 'button';
   button.classList.add('button');
-  const clickEvent = fd.events?.click[0];
-  if (button.type === 'button' && clickEvent) {
-    if (clickEvent.includes("dispatchEvent('reset')")) {
+  const clickEvent = fd?.events?.click;
+  if (button.type === 'button' && clickEvent && Array.isArray(clickEvent)) {
+    if (clickEvent.some((event) => event.includes("dispatchEvent('reset')"))) {
       button.type = 'reset';
-    } else if (clickEvent.includes('submitForm()')) {
+    } else if (clickEvent.some((event) => event.includes('submitForm'))) {
       button.type = 'submit';
     }
   }
