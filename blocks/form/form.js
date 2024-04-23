@@ -407,12 +407,13 @@ export async function createForm(formDef, data) {
   if (afModule) {
     window.setTimeout(async () => {
       afModule.loadRuleEngine(formDef, form, captcha, generateFormRendition, data);
-      form.addEventListener('reset', async () => {
-        const newForm = await createForm(formDef);
-        document.querySelector(`[data-action="${formDef.action}"]`).replaceWith(newForm);
-      });
     }, DELAY_MS);
   }
+
+  form.addEventListener('reset', async () => {
+    const newForm = await createForm(formDef);
+    document.querySelector(`[data-action="${formDef.action}"]`).replaceWith(newForm);
+  });
 
   form.addEventListener('submit', (e) => {
     handleSubmit(e, form, captcha);
