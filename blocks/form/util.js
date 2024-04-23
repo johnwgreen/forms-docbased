@@ -6,13 +6,16 @@ const allowedTags = `${headings}<a><b><p><i><em><strong><ul><li>`;
 
 export function stripTags(input, allowd = allowedTags) {
   const allowed = ((`${allowd || ''}`)
-    .toLowerCase()
-    .match(/<[a-z][a-z0-9]*>/g) || [])
-    .join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+      .toLowerCase()
+      .match(/<[a-z][a-z0-9]*>/g) || [])
+      .join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
   const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
   const comments = /<!--[\s\S]*?-->/gi;
+  const nbsp = /&nbsp;/g; // nbsp: non-breaking space character
   return input.replace(comments, '')
-    .replace(tags, ($0, $1) => (allowed.indexOf(`<${$1.toLowerCase()}>`) > -1 ? $0 : ''));
+      .replace(tags, ($0, $1) => (allowed.indexOf(`<${$1.toLowerCase()}>`) > -1 ? $0 : ''))
+      .replace(nbsp, '')
+      .trim();
 }
 
 /**
@@ -68,8 +71,8 @@ export function createLabel(fd, tagName = 'label') {
     if (fd.label.visible === false) {
       label.dataset.visible = 'false';
     }
-    if (fd.Tooltip) {
-      label.title = fd.Tooltip;
+    if (fd.tooltip) {
+      label.title = stripTags(fd.tooltip, '');
     }
     return label;
   }
