@@ -554,10 +554,6 @@ main .form :not(.checkbox-wrapper, .radio-wrapper) > label {
     margin: 15px 5px 0;
     position: absolute;
     transition: .3s cubic-bezier(.25,.8,.5,1);
- }
-
-main .form [data-empty='true'] > input:not(:focus) {
-    color: transparent;
 }
 
 /* Style for labels when input is active or not empty */
@@ -570,7 +566,8 @@ main .form [data-empty='false'] > label {
     z-index: 1;
 }
 
-/* remove placeholder when not focused */
+/* hide placeholder when not focused */
+
 main .form input:placeholder-shown:not(:focus)::placeholder {
     color: transparent;
 }
@@ -581,4 +578,8 @@ input[type='date']:not(:focus):in-range::-webkit-datetime-edit-month-field,
 input[type='date']:not(:focus):in-range::-webkit-datetime-edit-day-field,
 input[type='date']:not(:focus):in-range::-webkit-datetime-edit-text {
     color: transparent;
+}
+
+main .form [data-empty='true'] > input:not(:focus) {
+    color: transparent; /* for safari and firefox, the webkit styles do not work, hence this is added */
 }
