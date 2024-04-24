@@ -31,7 +31,7 @@ jobs:
       - name: Remove Form Developement Files
         run: |
           rm -rf \
-            .circleci .npmrc test rollup .github/workflows/main.yaml
+            .circleci .npmrc test rollup
 
       - name: Update .eslintignore
         run: |
@@ -42,7 +42,6 @@ jobs:
         run: |
           rm -rf package.json package-lock.json
           mv package-prod.json package.json
-          mv workflow_prod.yaml .github/workflows/main.yaml
 
      - name: Update github workflow
         run: |
