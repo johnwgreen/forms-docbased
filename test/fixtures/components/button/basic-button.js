@@ -6,7 +6,7 @@ export const fieldDef = {
     name: 'button-name',
     label: {
       visible: true,
-      value: 'A sample button 1',
+      value: 'A sample button',
     },
   },
   ],
