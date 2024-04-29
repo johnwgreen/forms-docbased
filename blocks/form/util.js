@@ -1,5 +1,6 @@
 // create a string containing head tags from h1 to h5
 import { defaultErrorMessages } from './constant.js';
+import { toCamelCase } from '../../scripts/aem.js';
 
 const headings = Array.from({ length: 5 }, (_, i) => `<h${i + 1}>`).join('');
 const allowedTags = `${headings}<a><b><p><i><em><strong><ul><li>`;
@@ -13,6 +14,28 @@ export function stripTags(input, allowd = allowedTags) {
   const comments = /<!--[\s\S]*?-->/gi;
   return input.replace(comments, '')
     .replace(tags, ($0, $1) => (allowed.indexOf(`<${$1.toLowerCase()}>`) > -1 ? $0 : ''));
+}
+
+/**
+ * Identifies the placeholder path for the current page.
+ * The placeholder path for the URL "https://www.example.com/en/us/page" would be "/en/us".
+ * @returns {string} placeholder path
+ * */
+export function getPlaceHolderPath() {
+  return window.location.pathname?.split('/')?.slice(0, -1)?.join('/');
+}
+
+/**
+ * Translates the passed text using the appropriate placeholders for the current page.
+ * @param {string} text The text to translate
+ * @returns {string} The translated text or the original text if no translation is found
+ * */
+export function translate(text) {
+  const key = toCamelCase(text);
+  const placeholders = window.placeholders[getPlaceHolderPath()];
+  const placeholderExists = placeholders && placeholders[key];
+  // fallback to default if placeholder not found
+  return placeholderExists ? placeholders[key] : text;
 }
 
 /**
@@ -61,9 +84,9 @@ export function createLabel(fd, tagName = 'label') {
     label.setAttribute('for', fd.id);
     label.className = 'field-label';
     if (fd.label.richText === true) {
-      label.innerHTML = stripTags(fd.label.value);
+      label.innerHTML = translate(stripTags(fd.label.value));
     } else {
-      label.textContent = fd.label.value;
+      label.textContent = translate(fd.label.value);
     }
     if (fd.label.visible === false) {
       label.dataset.visible = 'false';
@@ -104,7 +127,7 @@ export function createButton(fd) {
     wrapper.classList.add(`${fd?.buttonType}-wrapper`);
   }
   const button = document.createElement('button');
-  button.textContent = fd?.label?.visible === false ? '' : fd?.label?.value;
+  button.textContent = translate(fd?.label?.visible === false ? '' : fd?.label?.value);
   button.type = fd.buttonType || 'button';
   button.classList.add('button');
   button.id = fd.id;
@@ -145,7 +168,7 @@ export function createHelpText(fd) {
   const div = document.createElement('div');
   div.className = 'field-description';
   div.setAttribute('aria-live', 'polite');
-  div.innerHTML = fd.description;
+  div.innerHTML = translate(fd.description);
   div.id = `${fd.id}-description`;
   return div;
 }
@@ -224,6 +247,6 @@ export function checkValidation(fieldElement) {
     return;
   }
 
-  const message = getValidationMessage(fieldElement);
+  const message = translate(getValidationMessage(fieldElement));
   updateOrCreateInvalidMsg(fieldElement, message);
 }
