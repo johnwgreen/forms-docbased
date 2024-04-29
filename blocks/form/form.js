@@ -3,14 +3,14 @@ import {
   createHelpText,
   getId,
   stripTags,
-  checkValidation, translate, getPlaceHolderPath,
+  checkValidation, translate,
 } from './util.js';
 import GoogleReCaptcha from './integrations/recaptcha.js';
 import componentDecorater from './mappings.js';
 import DocBasedFormToAF from './transform.js';
 import transferRepeatableDOM from './components/repeat.js';
 import { handleSubmit } from './submit.js';
-import { getSubmitBaseUrl, emailPattern } from './constant.js';
+import { getSubmitBaseUrl, emailPattern, getPlaceHolderPath } from './constant.js';
 import { fetchPlaceholders } from '../../scripts/aem.js';
 
 export const DELAY_MS = 0;

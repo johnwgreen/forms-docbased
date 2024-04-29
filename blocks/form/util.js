@@ -1,5 +1,5 @@
 // create a string containing head tags from h1 to h5
-import { defaultErrorMessages } from './constant.js';
+import { defaultErrorMessages, getPlaceHolderPath } from './constant.js';
 import { toCamelCase } from '../../scripts/aem.js';
 
 const headings = Array.from({ length: 5 }, (_, i) => `<h${i + 1}>`).join('');
@@ -14,15 +14,6 @@ export function stripTags(input, allowd = allowedTags) {
   const comments = /<!--[\s\S]*?-->/gi;
   return input.replace(comments, '')
     .replace(tags, ($0, $1) => (allowed.indexOf(`<${$1.toLowerCase()}>`) > -1 ? $0 : ''));
-}
-
-/**
- * Identifies the placeholder path for the current page.
- * The placeholder path for the URL "https://www.example.com/en/us/page" would be "/en/us".
- * @returns {string} placeholder path
- * */
-export function getPlaceHolderPath() {
-  return window.location.pathname?.split('/')?.slice(0, -1)?.join('/');
 }
 
 /**
