@@ -47,7 +47,6 @@ jobs:
         run: |
           rm -rf .github/workflows/main.yaml
           mv workflow_prod.yaml .github/workflows/main.yaml
-          rm -rf workflow_prod.yaml
 
       - name: Initialize README
         # replace {repo} and {owner} with the actual values
