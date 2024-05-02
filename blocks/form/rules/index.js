@@ -34,8 +34,14 @@ async function fieldChanged(payload, form, generateFormRendition) {
     }
     switch (propertyName) {
       case 'required':
-        field.toggleAttribute('required', currentValue === true);
         field.closest('.field-wrapper').setAttribute('data-required', currentValue === true);
+        if (fieldType === 'radio-group' || fieldType === 'checkbox-group') {
+          field.querySelectorAll(`input[name=${id}]`).forEach((el) => {
+            el.toggleAttribute('required', currentValue === true);
+          });
+        } else {
+          field.toggleAttribute('required', currentValue === true);
+        }
         break;
       case 'validationMessage':
         if (field.setCustomValidity && payload.field.expressionMismatch) {
