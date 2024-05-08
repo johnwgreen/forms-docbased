@@ -41,4 +41,5 @@ export function expect(block) {
   assert.equal(fileList.innerHTML.includes('file1.png'), false, 'Should not show file1.png');
 }
 
+
 export const refresh = true;
