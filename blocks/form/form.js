@@ -413,6 +413,11 @@ export async function createForm(formDef, data) {
     }, DELAY_MS);
   }
 
+  form.addEventListener('reset', async () => {
+    const newForm = await createForm(formDef);
+    document.querySelector(`[data-action="${formDef.action}"]`).replaceWith(newForm);
+  });
+
   form.addEventListener('submit', (e) => {
     handleSubmit(e, form, captcha);
   });

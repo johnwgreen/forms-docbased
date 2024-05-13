@@ -218,11 +218,11 @@ function updateRequiredCheckboxGroup(name, htmlForm) {
   });
 }
 
-function getValidationMessage(fieldElement) {
+function getValidationMessage(fieldElement, wrapper) {
   const [invalidProperty] = Object.keys(validityKeyMsgMap)
     .filter((state) => fieldElement.validity[state]);
   const { key, attribute } = validityKeyMsgMap[invalidProperty] || {};
-  const message = attribute ? defaultErrorMessages[key].replace(/\$0/, fieldElement.getAttribute(attribute)) : defaultErrorMessages[key];
+  const message = wrapper.dataset[`${key}ErrorMessage`] || (attribute ? defaultErrorMessages[key].replace(/\$0/, fieldElement.getAttribute(attribute)) : defaultErrorMessages[key]);
   return message || fieldElement.validationMessage;
 }
 
@@ -238,6 +238,6 @@ export function checkValidation(fieldElement) {
     return;
   }
 
-  const message = translate(getValidationMessage(fieldElement));
+  const message = getValidationMessage(fieldElement, wrapper);
   updateOrCreateInvalidMsg(fieldElement, message);
 }
