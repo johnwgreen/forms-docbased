@@ -83,7 +83,7 @@ export function createLabel(fd, tagName = 'label') {
       label.dataset.visible = 'false';
     }
     if (fd.Tooltip) {
-      label.title = fd.Tooltip;
+      label.title = translate(fd.Tooltip);
     }
     return label;
   }
@@ -124,7 +124,7 @@ export function createButton(fd) {
   button.id = fd.id;
   button.name = fd.name;
   if (fd?.label?.visible === false) {
-    button.setAttribute('aria-label', fd?.label?.value || '');
+    button.setAttribute('aria-label', translate(fd?.label?.value) || '');
   }
   if (fd.enabled === false) {
     button.disabled = true;

@@ -68,7 +68,7 @@ const createTextArea = withFieldWrapper((fd) => {
 const createSelect = withFieldWrapper((fd) => {
   const select = document.createElement('select');
   select.required = fd.required;
-  select.title = fd.tooltip ?? '';
+  select.title = translate(fd.tooltip ?? '');
   select.readOnly = fd.readOnly;
   select.multiple = fd.type === 'string[]' || fd.type === 'boolean[]' || fd.type === 'number[]';
   let ph;
@@ -126,7 +126,7 @@ const createSelect = withFieldWrapper((fd) => {
 function createHeading(fd) {
   const wrapper = createFieldWrapper(fd);
   const heading = document.createElement('h2');
-  heading.textContent = fd.value || fd.label.value;
+  heading.textContent = translate(fd.value || fd.label.value);
   heading.id = fd.id;
   wrapper.append(heading);
 
@@ -200,7 +200,7 @@ function createRadioOrCheckboxGroup(fd) {
   });
   wrapper.dataset.required = fd.required;
   if (fd.tooltip) {
-    wrapper.title = stripTags(fd.tooltip, '');
+    wrapper.title = translate(stripTags(fd.tooltip, ''));
   }
   setConstraintsMessage(wrapper, fd.constraintMessages);
   return wrapper;
@@ -270,7 +270,7 @@ function inputDecorator(field, element) {
     input.id = field.id;
     input.name = field.name;
     if (field.tooltip) {
-      input.title = stripTags(field.tooltip, '');
+      input.title = translate(stripTags(field.tooltip, ''));
     }
     input.readOnly = field.readOnly;
     input.autocomplete = field.autoComplete ?? 'off';
