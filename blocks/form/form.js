@@ -426,10 +426,25 @@ function isDocumentBasedForm(formDef) {
   return formDef?.[':type'] === 'sheet' && formDef?.data;
 }
 
-function cleanUp(content) {
-  let formDef = content.replaceAll('^(([^<>()\\\\[\\\\]\\\\\\\\.,;:\\\\s@\\"]+(\\\\.[^<>()\\\\[\\\\]\\\\\\\\.,;:\\\\s@\\"]+)*)|(\\".+\\"))@((\\\\[[0-9]{1,3}\\\\.[0-9]{1,3}\\\\.[0-9]{1,3}\\\\.[0-9]{1,3}])|(([a-zA-Z\\\\-0-9]+\\\\.)\\+[a-zA-Z]{2,}))$', '');
-  formDef = formDef.replace(/\\/g, '');
-  return formDef?.replace(/\x83\n|\n|\s\s+/g, '');
+/*
+  Replace backslashes that are not followed by valid json escape characters
+  function cleanUp(content) {
+    return content.replace(/\\/g, (match, offset, string) => {
+      const prevChar = string[offset - 1];
+      const nextChar = string[offset + 1];
+      const validEscapeChars = ['b', 'f', 'n', 'r', 't', '"', '\\'];
+      if (validEscapeChars.includes(nextChar) || prevChar === '\\') {
+        return match;
+      }
+      return '';
+    });
+  }
+*/
+
+function decode(content) {
+  // eslint-disable-next-line max-len
+  // Server side code comes as a string, and it comes with escaped characters, hence the double parse
+  return JSON.parse(JSON.parse(content));
 }
 
 function extractFormDefinition(block) {
@@ -438,7 +453,7 @@ function extractFormDefinition(block) {
   const codeEl = container?.querySelector('code');
   const content = codeEl?.textContent;
   if (content) {
-    formDef = JSON.parse(cleanUp(content));
+    formDef = decode(content);
   }
   return { container, formDef };
 }
