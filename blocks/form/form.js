@@ -442,9 +442,12 @@ function isDocumentBasedForm(formDef) {
 */
 
 function decode(content) {
-  // Server side code comes as a string, and it comes with escaped characters,
-  // hence the double parse
-  return JSON.parse(JSON.parse(content));
+  if (content.startsWith('"') && content.endsWith('"')) {
+    // Server side code comes as a string with escaped characters,
+    // hence the double parse
+    return JSON.parse(JSON.parse(content));
+  }
+  return JSON.parse(content);
 }
 
 function extractFormDefinition(block) {
