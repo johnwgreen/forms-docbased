@@ -442,6 +442,7 @@ function isDocumentBasedForm(formDef) {
 */
 
 function decode(content) {
+  content = content.trim();
   if (content.startsWith('"') && content.endsWith('"')) {
     // Server side code comes as a string with escaped characters,
     // hence the double parse
