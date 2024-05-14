@@ -442,8 +442,8 @@ function isDocumentBasedForm(formDef) {
 */
 
 function decode(content) {
-  // eslint-disable-next-line max-len
-  // Server side code comes as a string, and it comes with escaped characters, hence the double parse
+  // Server side code comes as a string, and it comes with escaped characters,
+  // hence the double parse
   return JSON.parse(JSON.parse(content));
 }
 
