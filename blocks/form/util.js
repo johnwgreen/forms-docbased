@@ -2,7 +2,7 @@
 import { defaultErrorMessages } from './constant.js';
 
 const headings = Array.from({ length: 5 }, (_, i) => `<h${i + 1}>`).join('');
-const allowedTags = `${headings}<a><b><p><i><em><strong><ul><li>`;
+const allowedTags = `${headings}<a><b><p><i><em><strong><ul><li><ol>`;
 
 export function stripTags(input, allowd = allowedTags) {
   if (typeof input !== 'string') {
