@@ -1,5 +1,6 @@
-# Your Project's Title...
-Your project's description...
+# Forms Boilerplate for Xwalk
+Archiving this repository as it has been merged with https://github.com/adobe-rnd/aem-boilerplate-forms.  
+Please use https://github.com/adobe-rnd/aem-boilerplate-forms to initialise your forms projects for xwalk.
 
 ## Environments
 - Preview: https://main--{repo}--{owner}.hlx.page/
