@@ -426,8 +426,12 @@ function isDocumentBasedForm(formDef) {
   return formDef?.[':type'] === 'sheet' && formDef?.data;
 }
 
+function cleanUp(content) {
+  const formDef = content.replaceAll('^(([^<>()\\\\[\\\\]\\\\\\\\.,;:\\\\s@\\"]+(\\\\.[^<>()\\\\[\\\\]\\\\\\\\.,;:\\\\s@\\"]+)*)|(\\".+\\"))@((\\\\[[0-9]{1,3}\\\\.[0-9]{1,3}\\\\.[0-9]{1,3}\\\\.[0-9]{1,3}])|(([a-zA-Z\\\\-0-9]+\\\\.)\\+[a-zA-Z]{2,}))$', '');
+  return formDef?.replace(/\x83\n|\n|\s\s+/g, '');
+}
 /*
-  Replace backslashes that are not followed by valid json escape characters
+  Newer Clean up - Replace backslashes that are not followed by valid json escape characters
   function cleanUp(content) {
     return content.replace(/\\/g, (match, offset, string) => {
       const prevChar = string[offset - 1];
@@ -444,11 +448,11 @@ function isDocumentBasedForm(formDef) {
 function decode(rawContent) {
   const content = rawContent.trim();
   if (content.startsWith('"') && content.endsWith('"')) {
-    // Server side code comes as a string with escaped characters,
+    // In the new 'jsonString' context, Server side code comes as a string with escaped characters,
     // hence the double parse
     return JSON.parse(JSON.parse(content));
   }
-  return JSON.parse(content);
+  return JSON.parse(cleanUp(content));
 }
 
 function extractFormDefinition(block) {
