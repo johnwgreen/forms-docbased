@@ -154,7 +154,6 @@ async function fieldChanged(payload, form, generateFormRendition) {
   });
 }
 
-
 function formChanged(payload, form) {
   const { changes } = payload;
   changes.forEach((change) => {
