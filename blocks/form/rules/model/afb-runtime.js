@@ -882,7 +882,7 @@ const checkNumber = (inputVal) => {
     };
 };
 const checkInteger = (inputVal) => {
-    if (inputVal == '' || inputVal == null) {
+    if (inputVal === '' || inputVal == null) {
         return {
             value: '', valid: true
         };
@@ -3003,6 +3003,7 @@ class Form extends Container {
     _applyDefaultsInModel() {
         const current = this.specVersion;
         this._jsonModel.properties = this._jsonModel.properties || {};
+        this._jsonModel.fieldType = this._jsonModel.fieldType || 'form';
         if (current.lessThan(changeEventVersion) ||
             typeof this._jsonModel.properties['fd:changeEventBehaviour'] !== 'string') {
             this._jsonModel.properties['fd:changeEventBehaviour'] = 'self';
