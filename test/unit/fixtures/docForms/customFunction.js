@@ -50,6 +50,7 @@ export const formPath = 'http://localhost:3000/info.json';
 
 export function expect(block) {
   const fullName = block.querySelector('#fullname');
+  // eslint-disable-next-line no-console
   console.log('text', fullName);
   assert.equal(fullName.value, 'Aya Tan', 'value is not set in the field');
 

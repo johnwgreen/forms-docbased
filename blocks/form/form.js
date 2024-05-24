@@ -3,14 +3,15 @@ import {
   createHelpText,
   getId,
   stripTags,
-  checkValidation,
+  checkValidation, translate,
 } from './util.js';
 import GoogleReCaptcha from './integrations/recaptcha.js';
 import componentDecorater from './mappings.js';
 import DocBasedFormToAF from './transform.js';
 import transferRepeatableDOM from './components/repeat.js';
 import { handleSubmit } from './submit.js';
-import { getSubmitBaseUrl, emailPattern } from './constant.js';
+import { getSubmitBaseUrl, emailPattern, getPlaceHolderPath } from './constant.js';
+import { fetchPlaceholders } from '../../scripts/aem.js';
 
 export const DELAY_MS = 0;
 let captchaField;
@@ -24,7 +25,7 @@ const withFieldWrapper = (element) => (fd) => {
 
 function setPlaceholder(element, fd) {
   if (fd.placeholder) {
-    element.setAttribute('placeholder', fd.placeholder);
+    element.setAttribute('placeholder', translate(fd.placeholder));
   }
 }
 
@@ -45,7 +46,7 @@ function setConstraints(element, fd) {
     constraints
       .filter(([nm]) => fd[nm])
       .forEach(([nm, htmlNm]) => {
-        element.setAttribute(htmlNm, fd[nm]);
+        element.setAttribute(htmlNm, translate(fd[nm]));
       });
   }
 }
@@ -67,13 +68,13 @@ const createTextArea = withFieldWrapper((fd) => {
 const createSelect = withFieldWrapper((fd) => {
   const select = document.createElement('select');
   select.required = fd.required;
-  select.title = fd.tooltip ?? '';
+  select.title = translate(fd.tooltip ?? '');
   select.readOnly = fd.readOnly;
   select.multiple = fd.type === 'string[]' || fd.type === 'boolean[]' || fd.type === 'number[]';
   let ph;
   if (fd.placeholder) {
     ph = document.createElement('option');
-    ph.textContent = fd.placeholder;
+    ph.textContent = translate(fd.placeholder);
     ph.setAttribute('disabled', '');
     ph.setAttribute('value', '');
     select.append(ph);
@@ -82,7 +83,8 @@ const createSelect = withFieldWrapper((fd) => {
 
   const addOption = (label, value) => {
     const option = document.createElement('option');
-    option.textContent = label instanceof Object ? label?.value?.trim() : label?.trim();
+    const labelValue = label instanceof Object ? label?.value?.trim() : label?.trim();
+    option.textContent = translate(labelValue);
     option.value = value?.trim() || label?.trim();
     if (fd.value === option.value || (Array.isArray(fd.value) && fd.value.includes(option.value))) {
       option.setAttribute('selected', '');
@@ -124,7 +126,7 @@ const createSelect = withFieldWrapper((fd) => {
 function createHeading(fd) {
   const wrapper = createFieldWrapper(fd);
   const heading = document.createElement('h2');
-  heading.textContent = fd.value || fd.label.value;
+  heading.textContent = translate(fd.value || fd.label.value);
   heading.id = fd.id;
   wrapper.append(heading);
 
@@ -198,7 +200,7 @@ function createRadioOrCheckboxGroup(fd) {
   });
   wrapper.dataset.required = fd.required;
   if (fd.tooltip) {
-    wrapper.title = stripTags(fd.tooltip, '');
+    wrapper.title = translate(stripTags(fd.tooltip, ''));
   }
   setConstraintsMessage(wrapper, fd.constraintMessages);
   return wrapper;
@@ -207,9 +209,9 @@ function createRadioOrCheckboxGroup(fd) {
 function createPlainText(fd) {
   const paragraph = document.createElement('p');
   if (fd.richText) {
-    paragraph.innerHTML = stripTags(fd.value);
+    paragraph.innerHTML = translate(stripTags(fd.value));
   } else {
-    paragraph.textContent = fd.value;
+    paragraph.textContent = translate(fd.value);
   }
   const wrapper = createFieldWrapper(fd);
   wrapper.id = fd.id;
@@ -223,7 +225,7 @@ function createImage(fd) {
   <picture>
     <source srcset="${fd.source}?width=2000&optimize=medium" media="(min-width: 600px)">
     <source srcset="${fd.source}?width=750&optimize=medium">
-    <img alt="${fd.altText || fd.name}" src="${fd.source}?width=750&optimize=medium">
+    <img alt="${translate(fd.altText || fd.name)}" src="${fd.source}?width=750&optimize=medium">
   </picture>`;
   field.innerHTML = image;
   return field;
@@ -268,7 +270,7 @@ function inputDecorator(field, element) {
     input.id = field.id;
     input.name = field.name;
     if (field.tooltip) {
-      input.title = stripTags(field.tooltip, '');
+      input.title = translate(stripTags(field.tooltip, ''));
     }
     input.readOnly = field.readOnly;
     input.autocomplete = field.autoComplete ?? 'off';
@@ -329,7 +331,7 @@ function renderField(fd) {
   }
   if (fd.description) {
     field.append(createHelpText(fd));
-    field.dataset.description = fd.description; // In case overriden by error message
+    field.dataset.description = translate(fd.description); // In case overriden by error message
   }
   if (fd.fieldType !== 'radio-group' && fd.fieldType !== 'checkbox-group') {
     inputDecorator(fd, field);
@@ -339,6 +341,7 @@ function renderField(fd) {
 
 export async function generateFormRendition(panel, container, getItems = (p) => p?.items) {
   const items = getItems(panel) || [];
+  await fetchPlaceholders(getPlaceHolderPath());
   const promises = items.map(async (field) => {
     field.value = field.value ?? '';
     const { fieldType } = field;
@@ -484,6 +487,7 @@ export async function fetchForm(pathname) {
         }
         return doc;
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error('Unable to fetch form definition for path', pathname);
         return null;
       }
