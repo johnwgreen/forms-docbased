@@ -441,6 +441,34 @@ main .form form .wizard.left .panel-wrapper{
   flex: 1;
 }
 
+main .form form.edit-mode .fragment-wrapper:not(.edit-mode){
+    display: none;
+}
+
+main .form form:not(.edit-mode) .fragment-wrapper.edit-mode{
+    display: none;
+}
+
+main .form form.edit-mode .fragment-wrapper.edit-mode{
+    border-width: 1px;
+    padding: 15px;
+    font-family: Adobe Clean;
+    font-weight: normal;
+    font-size: 13px;
+    text-align: left;
+    color: #969696;
+    border-color: rgba(0,0,0,0.15);
+    border-radius: 4px;
+    background: linear-gradient(180deg,rgba(0,0,0,0.05),rgba(255,255,255,0.05),rgba(0,0,0,0.05)),
+                linear-gradient(90deg,rgba(0,0,0,0.05),rgba(255,255,255,0.05),rgba(0,0,0,0.05));
+}
+
+form.edit-mode .fragment-wrapper.edit-mode .fragment-title {
+    text-align: left;
+    color: #4b4b4b;
+    padding-left: 25px;
+}
+
 @media (width >= 1200px) {
     main .form form .checkbox-wrapper,
     main .form form .form-textarea-wrapper,
