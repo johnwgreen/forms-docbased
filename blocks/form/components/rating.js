@@ -12,8 +12,7 @@
 // of the clicked star element
 // and the selected class will be removed from the star elements after the
 // index of the clicked star element
-// the function will also add a mouseover event listener to the component
-// when the component is hovered, a hover class will be added to the component
+// the function will also add a mouseover event listener to the star element
 // when a star element is hovered, a css hover class will be added to the star
 // elements till the index of the hovered star element
 export default function rating(fieldDiv) {
@@ -53,8 +52,6 @@ export default function rating(fieldDiv) {
     });
     // add a mouseover event listener to the star element
     star.addEventListener('mouseover', () => {
-      // add the hover class to the rating div
-      ratingDiv.classList.add('hover');
       // add the css hover class to the star
       // elements till the index of the hovered star element
       // and remove the css hover class from the star
