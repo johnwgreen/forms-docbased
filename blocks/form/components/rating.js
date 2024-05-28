@@ -1,33 +1,76 @@
-export default function decorate(fieldDiv, field, htmlForm) {
-  // extract a input type number from fieldDiv
+// create a function to create a rating component
+// the function will take a fieldDiv that contains a input type number element
+// the function will convert the input element to a rating component
+// the rating component will have max value of max attribute set in the input element
+// and the value of the input element will be set to the value of the component
+// the rating component will have a star element for each value from 1 to max
+// the function will return the fieldDiv with the rating component
+// the function will also hide the input element
+// when a star element is clicked, the value of the input element will be set to the
+// index of the star element
+// and the selected class will be added to the star elements till the index
+// of the clicked star element
+// and the selected class will be removed from the star elements after the
+// index of the clicked star element
+// the function will also add a mouseover event listener to the component
+// when the component is hovered, a hover class will be added to the component
+// when a star element is hovered, a css hover class will be added to the star
+// elements till the index of the hovered star element
+export default function rating(fieldDiv) {
+  // get the input element from the fieldDiv
   const input = fieldDiv.querySelector('input[type="number"]');
-  // convert the input to a rating component
-  // the component will have max value of max attribute set in the input element
-  // and the value of the input element will be set to the value of the component
-  const rating = document.createElement('div');
-  rating.classList.add('rating');
-  for (let i = 1; i <= input.getAttribute('max'); i += 1) {
+  // get the max attribute from the input element
+  const max = input.getAttribute('max');
+  // create a div element to contain the rating component
+  const ratingDiv = document.createElement('div');
+  // add the rating class to the rating div
+  ratingDiv.classList.add('rating');
+  // add the hover class to the rating div
+  ratingDiv.classList.add('hover');
+  // create a star element for each value from 1 to max
+  for (let i = 1; i <= max; i += 1) {
+    // create a star element
     const star = document.createElement('span');
-    // add class to the star element
+    // add the star class to the star element
     star.classList.add('star');
+    // add the text content to star element
     star.textContent = '★';
+    // add the star element to the rating div
+    ratingDiv.appendChild(star);
+    // add a click event listener to the star element
     star.addEventListener('click', () => {
+      // set the value of the input element to the index of the star element
       input.value = i;
-      const event = new Event('change', { bubbles: true });
-      input.dispatchEvent(event);
-      // add selected class to the star elements till index i
+      // add the selected class to the star elements till the index of the clicked star element
       for (let j = 0; j < i; j += 1) {
-        rating.children[j].classList.add('selected');
+        ratingDiv.children[j].classList.add('selected');
       }
-      // remove selected class from star elements after index i
-      for (let j = i; j < rating.children.length; j += 1) {
-        rating.children[j].classList.remove('selected');
+      // remove the selected class from the star elements after the index of the
+      // clicked star element
+      for (let j = i; j < max; j += 1) {
+        ratingDiv.children[j].classList.remove('selected');
       }
     });
-    rating.appendChild(star);
+    // add a mouseover event listener to the star element
+    star.addEventListener('mouseover', () => {
+      // add the hover class to the rating div
+      ratingDiv.classList.add('hover');
+      // add the css hover class to the star
+      // elements till the index of the hovered star element
+      // and remove the css hover class from the star
+      // elements after the index of the hovered star element
+      for (let j = 0; j < i; j += 1) {
+        ratingDiv.children[j].classList.add('hover');
+      }
+      for (let j = i; j < max; j += 1) {
+        ratingDiv.children[j].classList.remove('hover');
+      }
+    });
   }
-  fieldDiv.appendChild(rating);
+  // add the rating div to the fieldDiv
+  fieldDiv.appendChild(ratingDiv);
   // hide the input element
   input.style.display = 'none';
+  // return the fieldDiv with the rating component
   return fieldDiv;
 }

@@ -563,3 +563,8 @@ main .form .rating .star {
 main .form .rating .star.selected {
     color: #f8d053;
 }
+
+/** add orange color to the star with hover class in rating component */
+main .form .rating:hover .star.hover {
+    color: #ecba24;
+}
