@@ -40,6 +40,8 @@ export default function rating(fieldDiv) {
     star.addEventListener('click', () => {
       // set the value of the input element to the index of the star element
       input.value = i;
+      // trigger a change event that bubbles on the input element
+      input.dispatchEvent(new Event('change', { bubbles: true }));
       // add the selected class to the star elements till the index of the clicked star element
       for (let j = 0; j < i; j += 1) {
         ratingDiv.children[j].classList.add('selected');
@@ -74,24 +76,26 @@ export default function rating(fieldDiv) {
         emojiElement.textContent = '😊';
       }
     });
-    // remove the emoji when the star element is not hovered or selected
-    star.addEventListener('mouseout', () => {
-      // if none of the star is selected, remove the hover class
-      // and the emoji element
-      const selectedStar = ratingDiv.querySelector('.star.selected');
-      if (!selectedStar) {
-        ratingDiv.classList.remove('hover');
-        const emojiElement = ratingDiv.querySelector('.emoji');
-        emojiElement.textContent = '';
-      }
-    });
   }
-  // add the rating div to the fieldDiv
-  fieldDiv.appendChild(ratingDiv);
   // add the emoji element next to the last star element
   const emoji = document.createElement('span');
   emoji.classList.add('emoji');
   ratingDiv.appendChild(emoji);
+  // add a mouseleave event listener to the rating div
+  ratingDiv.addEventListener('mouseleave', () => {
+    // check if no star is selected
+    if (!ratingDiv.querySelector('.selected')) {
+      // remove the hover class from the star elements
+      for (let j = 0; j < max; j += 1) {
+        ratingDiv.children[j].classList.remove('hover');
+      }
+      // remove the emoji from the emoji element
+      const emojiElement = ratingDiv.querySelector('.emoji');
+      emojiElement.textContent = '';
+    }
+  });
+  // add the rating div to the fieldDiv
+  fieldDiv.appendChild(ratingDiv);
   // hide the input element
   input.style.display = 'none';
   // return the fieldDiv with the rating component
