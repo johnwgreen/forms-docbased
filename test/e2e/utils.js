@@ -10,3 +10,36 @@ function executeGitCommand(command) {
 export function getCurrentBranch() {
   return executeGitCommand('git rev-parse --abbrev-ref HEAD');
 }
+// eslint-disable-next-line max-len
+export async function fillField(page, coreComponent, textInput, emailInput, numberInput, dropDown, FilePath, dataInput) {
+  switch (coreComponent) {
+    case 'Text Input':
+      await page.getByLabel(coreComponent).fill(textInput);
+      break;
+    case 'Email Input':
+      await page.getByLabel(coreComponent).fill(emailInput);
+      break;
+    case 'Telephone Input':
+    case 'Number Input':
+      await page.getByLabel(coreComponent).fill(numberInput);
+      break;
+    case 'Check Box Group':
+      await page.getByRole('checkbox', { name: 'Item 1' }).click();
+      break;
+    case 'Radio Button':
+      await page.getByRole('radio', { name: 'Item 2' }).click();
+      break;
+    case 'Dropdown':
+      await page.getByLabel(coreComponent).selectOption(dropDown);
+      break;
+    case 'File Attachment':
+      await page.getByLabel(coreComponent).setInputFiles(FilePath);
+      break;
+    case 'Date Input':
+      await page.getByLabel(coreComponent).focus();
+      await page.getByLabel(coreComponent).fill(dataInput);
+      break;
+    default:
+      break;
+  }
+}

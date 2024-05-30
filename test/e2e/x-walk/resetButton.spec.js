@@ -1,8 +1,18 @@
 import { test, expect } from '@playwright/test';
 import { getCurrentBranch } from '../utils.js';
+import { fillField } from '../utils.js';
 
 const wizardCount = ".repeat-wrapper fieldset[class='panel-wrapper field-wrapper wizard']";
 const wizardPanelCount = 'ul.wizard-menu-items li.wizard-menu-item';
+const partialUrl = '/L2NvbnRlbnQvZm9ybXMvYWYvc2FtcGxldGVzdC9lbWFpbA==';
+const dropDownSelector = 'div.drop-down-wrapper select';
+const fileName = 'empty.pdf';
+const textInput = 'adobe';
+const emailInput = 'test@adobe.com';
+const numberInput = '123';
+const dropDown = 'Orange';
+const FilePath = './test/e2e/upload/empty.pdf';
+const dataInput = '2022-12-23';
 test.describe('resetButton validation test', () => {
   let page;
   test.beforeAll(async ({ browser }) => {
@@ -35,4 +45,45 @@ test.describe('resetButton validation test', () => {
       ],
     );
   });
-});
+
+  test('Check for reset functionality', async () => {
+    // eslint-disable-next-line no-restricted-syntax,no-unused-vars
+    for (const name of components) {
+      // eslint-disable-next-line no-await-in-loop,max-len
+      await fillField(page, name, textInput, emailInput, numberInput, dropDown, FilePath, dataInput);
+    }
+    await page.getByRole('button', { name: 'Reset' }).click();
+    // eslint-disable-next-line no-restricted-syntax
+    for (const name of components) {
+      // eslint-disable-next-line no-await-in-loop,no-use-before-define
+      await checkIfReset(name);
+    }
+  });
+  const checkIfReset = async (coreComponent) => {
+    switch (coreComponent) {
+      case 'Text Input':
+      case 'Email Input':
+      case 'Telephone Input':
+      case 'Date Input':
+      case 'Number Input':
+        expect(await page.getByLabel(coreComponent).inputValue()).toBe('');
+        break;
+      case 'Check Box Group':
+        expect(await page.getByRole('checkbox', { name: 'Item 1' }).isChecked()).toBe(false);
+        break;
+      case 'Radio Button':
+        expect(await page.getByRole('radio', { name: 'Item 2' }).isChecked()).toBe(false);
+        break;
+      case 'Dropdown':
+        // eslint-disable-next-line no-case-declarations
+        await expect(page.locator(dropDownSelector)).toHaveValue('');
+        break;
+      case 'File Attachment':
+        expect(await page.getByLabel(fileName).isVisible()).toBe(false);
+        break;
+      default:
+        break;
+    }
+  };
+});  
+
