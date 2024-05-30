@@ -414,8 +414,15 @@ export async function createForm(formDef, data) {
   }
 
   form.addEventListener('reset', async () => {
+    const thankYouMessage = form.querySelector('.form-message.success-message');
     const newForm = await createForm(formDef);
     document.querySelector(`[data-action="${formDef.action}"]`).replaceWith(newForm);
+    if (thankYouMessage) {
+      newForm.prepend(thankYouMessage);
+      if (thankYouMessage.scrollIntoView) {
+        thankYouMessage.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   });
 
   form.addEventListener('submit', (e) => {
