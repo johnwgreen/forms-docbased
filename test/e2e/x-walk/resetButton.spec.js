@@ -1,10 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { getCurrentBranch } from '../utils.js';
-import { fillField } from '../utils.js';
+import { fillField, getCurrentBranch } from '../utils.js';
 
 const wizardCount = ".repeat-wrapper fieldset[class='panel-wrapper field-wrapper wizard']";
 const wizardPanelCount = 'ul.wizard-menu-items li.wizard-menu-item';
-const partialUrl = '/L2NvbnRlbnQvZm9ybXMvYWYvc2FtcGxldGVzdC9lbWFpbA==';
 const dropDownSelector = 'div.drop-down-wrapper select';
 const fileName = 'empty.pdf';
 const textInput = 'adobe';
@@ -15,6 +13,7 @@ const FilePath = './test/e2e/upload/empty.pdf';
 const dataInput = '2022-12-23';
 test.describe('resetButton validation test', () => {
   let page;
+  const components = ['Text Input', 'Check Box Group', 'Number Input', 'Radio Button', 'Telephone Input', 'Email Input', 'File Attachment', 'Dropdown', 'Date Input'];
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage();
     await page.goto(`https://${getCurrentBranch()}--aem-boilerplate-forms--adobe-rnd.hlx.live/drafts/tests/x-walk/wizardvalidation`, { waitUntil: 'networkidle' });
@@ -85,5 +84,4 @@ test.describe('resetButton validation test', () => {
         break;
     }
   };
-});  
-
+});
