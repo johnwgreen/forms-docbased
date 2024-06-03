@@ -68,7 +68,8 @@ test.describe('error messages test', () => {
     expect(await f8.locator('..').locator('.field-description').innerText()).toBe('error message set via rule editor');
   });
 
-  test('clear errormessage when field is valid', async () => {
+  test('clear errormessage when field is valid', async ({ page }) => {
+    await openPage(page, testURL);
     const f1 = await page.locator('input[name="f1"]');
     await f1.fill('a');
     await f1.press('Tab');
