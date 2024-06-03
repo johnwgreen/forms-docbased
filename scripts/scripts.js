@@ -13,6 +13,23 @@ import {
   loadCSS,
 } from './aem.js';
 
+import {
+  createInlineScript,
+  getAlloyInitScript,
+  setupAnalyticsTrackingWithAlloy,
+  analyticsTrackButtonClick,
+} from './lib-analytics.js';
+
+/*
+import {
+  currentFormContext,
+} from '../common/journey-utils.js';
+
+import {
+  santizedFormDataWithContext,
+} from '../common/formutils.js'; 
+*/
+
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
 /**
@@ -78,6 +95,7 @@ async function loadEager(doc) {
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {
+    createInlineScript(document, document.body, getAlloyInitScript(), 'text/javascript');
     decorateMain(main);
     document.body.classList.add('appear');
     await waitForLCP(LCP_BLOCKS);
@@ -114,6 +132,9 @@ async function loadLazy(doc) {
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
+
+  // initialize analytics
+  await setupAnalyticsTrackingWithAlloy(document);
 }
 
 /**
@@ -131,5 +152,20 @@ async function loadPage() {
   await loadLazy(document);
   loadDelayed();
 }
+
+/**
+   * Filters out all defined values from the form data using the globals object.
+   * @param {object} globalsObj - Globals variables object containing form configurations.
+   * @returns {object} - Object containing only defined values.
+   */
+const santizedFormData = (globalsObj) => {
+  return JSON.parse(JSON.stringify(globalsObj.functions.exportData()));
+};
+
+// Callback to RUM 'buttonClick' checkpoint
+sampleRUM.always.on('buttonClick', async (data) => {
+  if (!data.target.payload) return;
+  analyticsTrackButtonClick(data.target.payload, santizedFormData(data.target.globals), currentFormContext);
+});
 
 loadPage();
