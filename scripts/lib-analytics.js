@@ -16,6 +16,11 @@
  * @type {string}
  */
 const CUSTOM_SCHEMA_NAMESPACE = '<CUSTOMER_SCHEMA_NAMESPACE>';
+const DEV_DATA_STREAM_ID = '<DEV_DATA_STREAM_ID>';
+const STAGE_DATA_STREAM_ID = '<STAGE_DATA_STREAM_ID>';
+const PROD_DATA_STREAM_ID = '<PROD_DATA_STREAM_ID>';
+const CUSTOMER_ADOBE_ORGID = '<CUSTOMER_ADOBE_ORGID@AdobeOrg>';
+const CUSTOMER_DOMAIN_NAME = '<CUSTOMER_DOMAIN_NAME>';
 
 /**
  * Returns script that initializes a queue for each alloy instance,
@@ -37,17 +42,17 @@ export function getAlloyInitScript() {
  */
 function getDatastreamConfiguration() {
   const { hostname } = window.location;
-  let edgeConfigId = 'DEV_EDGE_CONFIG_ID';
-  if (hostname?.endsWith('CUSTOMER_DOMAIN_NAME')) {
-    edgeConfigId = 'PROD_EDGE_CONFIG_ID';
+  let dataStreamId = DEV_DATA_STREAM_ID;
+  if (hostname?.endsWith(CUSTOMER_DOMAIN_NAME)) {
+    dataStreamId = STAGE_DATA_STREAM_ID;
   }
   if (hostname?.endsWith('hlx.page') || hostname?.endsWith('hlx.live')) {
-    edgeConfigId = 'STAGE_EDGE_CONFIG_ID';
+    dataStreamId = PROD_DATA_STREAM_ID;
   }
 
   return {
-    edgeConfigId,
-    orgId: 'CUSTOMER_ADOBE_ORGID@AdobeOrg',
+    dataStreamId,
+    orgId: CUSTOMER_ADOBE_ORGID,
   };
 }
 
