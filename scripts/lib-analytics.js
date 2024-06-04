@@ -15,12 +15,12 @@
  * Customer's XDM schema namespace
  * @type {string}
  */
-const CUSTOM_SCHEMA_NAMESPACE = '<CUSTOMER_SCHEMA_NAMESPACE>';
-const DEV_DATA_STREAM_ID = '<DEV_DATA_STREAM_ID>';
-const STAGE_DATA_STREAM_ID = '<STAGE_DATA_STREAM_ID>';
-const PROD_DATA_STREAM_ID = '<PROD_DATA_STREAM_ID>';
-const CUSTOMER_ADOBE_ORGID = '<CUSTOMER_ADOBE_ORGID@AdobeOrg>';
-const CUSTOMER_DOMAIN_NAME = '<CUSTOMER_DOMAIN_NAME>';
+const CUSTOM_SCHEMA_NAMESPACE = '<CUSTOMER_SCHEMA_NAMESPACE>';  /* your XDM schema here */
+const DEV_DATA_STREAM_ID = '<DEV_DATA_STREAM_ID>';              /* your dev datastream id here */
+const STAGE_DATA_STREAM_ID = '<STAGE_DATA_STREAM_ID>';          /* your stage datastream id here */
+const PROD_DATA_STREAM_ID = '<PROD_DATA_STREAM_ID>';            /* your prod datastream id here */
+const CUSTOMER_ADOBE_ORGID = '<CUSTOMER_ADOBE_ORGID@AdobeOrg>'; /* your ims org id here */
+const CUSTOMER_DOMAIN_NAME = '<CUSTOMER_DOMAIN_NAME>';          /* your domain name here */
 
 /**
  * Returns script that initializes a queue for each alloy instance,
