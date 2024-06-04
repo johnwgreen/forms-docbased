@@ -25,6 +25,9 @@ export const sample = {
         visible: false,
         value: 'Identity Proof',
       },
+      properties: {
+        dragDropText: 'Upload',
+      },
       ':type': 'forms-components-examples/components/form/fileinput',
     },
   ],
@@ -40,6 +43,7 @@ export function op(block) {
   });
   input.files = [file1];
   input.dispatchEvent(event);
+  assert.equal(block.querySelector('.file-dragText').textContent, 'Upload');
   assert.equal(fileList.children.length, 1, 'Should render file1');
   assert.equal(fileList.innerHTML.includes('file1.png'), true, 'Should show file1.png');
 
