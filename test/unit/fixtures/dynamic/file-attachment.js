@@ -45,7 +45,7 @@ export function op(block) {
   input.dispatchEvent(event);
   assert.equal(fileList.children.length, 1, 'Should render file1');
   assert.equal(fileList.innerHTML.includes('file1.png'), true, 'Should show file1.png');
-  assert.equal(block.querySelector('.file-dragText').innerHTML, 'Upload', 'Should show Upload');
+  assert.equal(block.querySelector('.file-dragText').innerHTML, 'Upload', ' Should show Upload');
 
   const file2 = new File([new ArrayBuffer(1024)], 'file2.png', { type: 'image/png' });
   const event2 = new Event('change', {
