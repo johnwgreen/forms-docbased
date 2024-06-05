@@ -3,18 +3,20 @@ import { fillField, openPage } from '../utils.js';
 
 const wizardCount = ".repeat-wrapper fieldset[class='panel-wrapper field-wrapper wizard']";
 const wizardPanelCount = 'ul.wizard-menu-items li.wizard-menu-item';
-const dropDownSelector = 'div.drop-down-wrapper select';
+const titles = ['Text Input', 'Check Box Group', 'Number Input', 'Radio Button', 'Telephone Input', 'Email Input', 'File Attachment', 'Dropdown', 'Date Input'];
 const fileName = 'empty.pdf';
-const textInput = 'adobe';
-const emailInput = 'test@adobe.com';
-const numberInput = '123';
-const dropDown = 'Orange';
-const FilePath = './test/e2e/upload/empty.pdf';
-const dataInput = '2022-12-23';
+const dropDownSelector = 'div.drop-down-wrapper select';
+const inputValues = {
+  textInput: 'adobe',
+  emailInput: 'test@adobe.com',
+  numberInput: '123',
+  dropDown: 'Orange',
+  FilePath: './test/e2e/upload/empty.pdf',
+  dataInput: '2022-12-23',
+};
+
 test.describe('resetButton validation test', () => {
-  const components = ['Text Input', 'Check Box Group', 'Number Input', 'Radio Button', 'Telephone Input', 'Email Input', 'File Attachment', 'Dropdown', 'Date Input'];
   const testURL = '/drafts/tests/x-walk/wizardvalidation';
-  
   test('resetButton validation on wizard panels', async ({ page }) => {
     await openPage(page, testURL);
     for (let i = 0; i < 4; i += 1) {
@@ -43,27 +45,30 @@ test.describe('resetButton validation test', () => {
     );
   });
 
-  test('Check for reset functionality', async () => {
-    // eslint-disable-next-line no-restricted-syntax,no-unused-vars
-    for (const name of components) {
+  test('Check for reset functionality', async ({ page }) => {
+    const testURL1 = '/drafts/tests/x-walk/resetvalidation';
+    await openPage(page, testURL1);
+    // eslint-disable-next-line no-restricted-syntax
+    for (const title of titles) {
       // eslint-disable-next-line no-await-in-loop,max-len
-      await fillField(page, name, textInput, emailInput, numberInput, dropDown, FilePath, dataInput);
+      await fillField(page, title, inputValues);
     }
     await page.getByRole('button', { name: 'Reset' }).click();
     // eslint-disable-next-line no-restricted-syntax
-    for (const name of components) {
+    for (const title of titles) {
       // eslint-disable-next-line no-await-in-loop,no-use-before-define
-      await checkIfReset(name);
+      await checkIfReset(page, title);
     }
   });
-  const checkIfReset = async (coreComponent) => {
-    switch (coreComponent) {
+  // eslint-disable-next-line no-shadow
+  const checkIfReset = async (page, ComponentsTitle) => {
+    switch (ComponentsTitle) {
       case 'Text Input':
       case 'Email Input':
       case 'Telephone Input':
       case 'Date Input':
       case 'Number Input':
-        expect(await page.getByLabel(coreComponent).inputValue()).toBe('');
+        expect(await page.getByLabel(ComponentsTitle).inputValue()).toBe('');
         break;
       case 'Check Box Group':
         expect(await page.getByRole('checkbox', { name: 'Item 1' }).isChecked()).toBe(false);
@@ -79,6 +84,7 @@ test.describe('resetButton validation test', () => {
         expect(await page.getByLabel(fileName).isVisible()).toBe(false);
         break;
       default:
+        console.error(`${ComponentsTitle} Title is not visible`);
         break;
     }
   };
