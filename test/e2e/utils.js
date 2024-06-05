@@ -48,4 +48,3 @@ const openPage = async (page, relativeURL) => {
 };
 
 export { openPage, getCurrentBranch };
-
