@@ -50,7 +50,7 @@
       "drop-down",
       "radio-group",
       "email",
-      "fragment",
+      "form-fragment",
       "form-button",
       "form-image",
       "form-submit-button",
