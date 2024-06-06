@@ -600,6 +600,10 @@ class FileObject {
     constructor(init) {
         Object.assign(this, init);
     }
+    set type(type) {
+        this.mediaType = type;
+    }
+
     get type() {
         return this.mediaType;
     }
