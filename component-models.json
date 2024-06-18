@@ -844,7 +844,7 @@
         ]
     },
     {
-        "id": "fragment",
+        "id": "form-fragment",
         "fields": [
             {
                 "component": "container",
