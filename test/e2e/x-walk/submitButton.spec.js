@@ -1,35 +1,35 @@
-import { test } from '@playwright/test';
-import { setSubmitBaseUrl } from '../../../blocks/form/constant.js';
-import { fillField, getCurrentBranch } from '../utils.js';
+import { test, expect } from '../fixtures.js';
+import { fillField, openPage } from '../utils.js';
 
+const inputValues = {
+  textInput: 'adobe',
+  emailInput: 'test@adobe.com',
+  numberInput: '123',
+  dropDown: 'Orange',
+  FilePath: './test/e2e/upload/empty.pdf',
+  dataInput: '2022-12-23',
+};
 const partialUrl = '/L2NvbnRlbnQvZm9ybXMvYWYveHdhbGstdGVzdC1jb2xsYXRlcmFsL3N1Ym1pdHZhbGlkYXRpb24=';
-const textInput = 'adobe';
-const emailInput = 'test@adobe.com';
-const numberInput = '123';
-const dropDown = 'Orange';
-const FilePath = './test/e2e/upload/empty.pdf';
-const dataInput = '2022-12-23';
+const titles = ['Text Input', 'Check Box Group', 'Number Input', 'Radio Button', 'Telephone Input', 'Email Input', 'File Attachment', 'Dropdown', 'Date Input'];
 test.describe('Form with Submit Button', async () => {
-  let page;
-  const components = ['Text Input', 'Check Box Group', 'Number Input', 'Radio Button', 'Telephone Input', 'Email Input', 'File Attachment', 'Dropdown', 'Date Input'];
-  // eslint-disable-next-line no-shadow,new-cap
-  test.beforeAll(async ({ browser }) => {
-    page = await browser.newPage();
-    setSubmitBaseUrl('https://publish-p133911-e1313554.adobeaemcloud.com/');
-    // eslint-disable-next-line new-cap
-    await page.goto(`https://${getCurrentBranch()}--aem-boilerplate-forms--adobe-rnd.hlx.live/drafts/tests/x-walk/submitvalidation`, { waitUntil: 'networkidle' });
-  });
+  const testURL = '/drafts/tests/x-walk/submitvalidation';
 
-  test.only('Clicking the button should submit the form', async () => {
-    // eslint-disable-next-line no-restricted-syntax,no-unused-vars
-    for (const name of components) {
+  test('Clicking the button should submit the form', async ({ page }) => {
+    await openPage(page, testURL);
+    await page.evaluate(async () => {
+      // eslint-disable-next-line no-undef,no-underscore-dangle
+      myForm._jsonModel.action = 'https://publish-p133911-e1313554.adobeaemcloud.com/adobe/forms/af/submit/L2NvbnRlbnQvZm9ybXMvYWYveHdhbGstdGVzdC1jb2xsYXRlcmFsL3N1Ym1pdHZhbGlkYXRpb24=';
+    });
+    // eslint-disable-next-line no-restricted-syntax
+    for (const title of titles) {
       // eslint-disable-next-line no-await-in-loop,max-len
-      await fillField(page, name, textInput, emailInput, numberInput, dropDown, FilePath, dataInput);
+      await fillField(page, title, inputValues);
     }
     // eslint-disable-next-line max-len
     const responsePromise = page.waitForResponse((response) => response.url().includes(partialUrl) && response.status() === 200);
     await page.getByRole('button', { name: 'Submit' }).click();
-    // await expect(page.getByText('Thank you for submitting the form.')).toBeVisible();
+    await expect(page.getByText('Thank you for submitting the form.')).toBeVisible();
     await responsePromise;
   });
 });
+
