@@ -6,6 +6,7 @@ import {
 // a */modals/* path  are automatically transformed into a modal. Other blocks can also use
 // the createModal() and openModal() functions.
 
+// eslint-disable-next-line import/prefer-default-export
 export async function createModal(contentNodes) {
   await loadCSS(`${window.hlx.codeBasePath}/blocks/modal/modal.css`);
   const dialog = document.createElement('dialog');
@@ -58,7 +59,4 @@ export async function createModal(contentNodes) {
       document.body.classList.add('modal-open');
     },
   };
-}
-
-export async function openModal() {
 }
