@@ -259,8 +259,14 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
+                        "label": "Title",
                         "valueType": "string"
+                    },
+                    {
+                        "component": "boolean",
+                        "name": "hideTitle",
+                        "label": "Hide title",
+                        "valueType": "boolean"
                     },
                     {
                         "component": "text",
@@ -377,8 +383,14 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
+                        "label": "Title",
                         "valueType": "string"
+                    },
+                    {
+                        "component": "boolean",
+                        "name": "hideTitle",
+                        "label": "Hide title",
+                        "valueType": "boolean"
                     },
                     {
                         "component": "text",
@@ -515,8 +527,14 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
+                        "label": "Title",
                         "valueType": "string"
+                    },
+                    {
+                        "component": "boolean",
+                        "name": "hideTitle",
+                        "label": "Hide title",
+                        "valueType": "boolean"
                     },
                     {
                         "component": "text",
@@ -633,8 +651,14 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
+                        "label": "Title",
                         "valueType": "string"
+                    },
+                    {
+                        "component": "boolean",
+                        "name": "hideTitle",
+                        "label": "Hide title",
+                        "valueType": "boolean"
                     },
                     {
                         "component": "text",
@@ -756,7 +780,7 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
+                        "label": "Title",
                         "valueType": "string"
                     },
                     {
@@ -862,8 +886,14 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
+                        "label": "Title",
                         "valueType": "string"
+                    },
+                    {
+                        "component": "boolean",
+                        "name": "hideTitle",
+                        "label": "Hide title",
+                        "valueType": "boolean"
                     },
                     {
                         "component": "boolean",
@@ -974,8 +1004,14 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
+                        "label": "Title",
                         "valueType": "string"
+                    },
+                    {
+                        "component": "boolean",
+                        "name": "hideTitle",
+                        "label": "Hide title",
+                        "valueType": "boolean"
                     },
                     {
                         "component": "text",
@@ -1111,7 +1147,19 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
+                        "label": "Title",
+                        "valueType": "string"
+                    },
+                    {
+                        "component": "boolean",
+                        "name": "hideTitle",
+                        "label": "Hide title",
+                        "valueType": "boolean"
+                    },
+                    {
+                        "component": "text",
+                        "name": "dataRef",
+                        "label": "Bind reference",
                         "valueType": "string"
                     },
                     {
@@ -1230,8 +1278,14 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
+                        "label": "Title",
                         "valueType": "string"
+                    },
+                    {
+                        "component": "boolean",
+                        "name": "hideTitle",
+                        "label": "Hide title",
+                        "valueType": "boolean"
                     },
                     {
                         "component": "text",
@@ -1370,38 +1424,18 @@
         "id": "plain-text",
         "fields": [
             {
-                "component": "container",
-                "name": "basic",
-                "label": "Basic",
-                "collapsible": false,
-                "fields": [
-                    {
-                        "component": "text",
-                        "name": "name",
-                        "label": "Name",
-                        "valueType": "string",
-                        "required": true
-                    },
-                    {
-                        "component": "richtext",
-                        "name": "value",
-                        "label": "Text",
-                        "valueType": "string"
-                    },
-                    {
-                        "component": "boolean",
-                        "name": "unboundFormElement",
-                        "label": "Mark as Unbound Form Element",
-                        "valueType": "boolean"
-                    },
-                    {
-                        "component": "boolean",
-                        "name": "visible",
-                        "label": "Show Component",
-                        "valueType": "boolean",
-                        "value": true
-                    }
-                ]
+                "component": "text",
+                "name": "name",
+                "label": "Name",
+                "valueType": "string",
+                "required": true
+            },
+            {
+                "component": "boolean",
+                "name": "visible",
+                "label": "Show Component",
+                "valueType": "boolean",
+                "value": true
             }
         ]
     },
@@ -1424,8 +1458,14 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
+                        "label": "Title",
                         "valueType": "string"
+                    },
+                    {
+                        "component": "boolean",
+                        "name": "hideTitle",
+                        "label": "Hide title",
+                        "valueType": "boolean"
                     },
                     {
                         "component": "text",
@@ -1542,13 +1582,7 @@
                     {
                         "component": "text",
                         "name": "jcr:title",
-                        "label": "Label",
-                        "valueType": "string"
-                    },
-                    {
-                        "component": "text",
-                        "name": "placeholder",
-                        "label": "Placeholder text",
+                        "label": "Title",
                         "valueType": "string"
                     },
                     {
@@ -1614,7 +1648,7 @@
             {
                 "component": "text",
                 "name": "jcr:title",
-                "label": "Label",
+                "label": "Title",
                 "valueType": "string"
             },
             {
