@@ -358,7 +358,8 @@ export async function generateFormRendition(panel, container, getItems = (p) => 
       const decorator = await componentDecorater(field);
       if (field?.fieldType === 'panel') {
         await generateFormRendition(field, element, getItems);
-        return element;
+        // if custom panel render it. TODO: need to improve this check
+        return field?.properties?.modal ? decorator(element, field, container) : element;
       }
       if (typeof decorator === 'function') {
         return decorator(element, field, container);
